@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Nandita ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffeef2;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container { width: 90%; }
+
+        .message-box {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255,105,180,0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 { color: #d63384; font-size: 1.5rem; }
+        
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 60px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-yes { background-color: #ff4d6d; color: white; }
+        .btn-no { background-color: #adb5bd; color: white; position: absolute; }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 50px;
+            background: rgba(255, 105, 180, 0.6);
+            border-radius: 50%;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-120vh) translateX(50px); opacity: 0; }
+        }
+
+        .hidden { display: none; }
+        #final-window img { width: 150px; border-radius: 15px; }
+        
+        /* Slide up animation for Happy Valentines Day */
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="video-container" style="position: absolute; width: 0; height: 0; overflow: hidden;"></div>
+
+    <div class="container" id="main-content">
+        <div id="step-1" class="message-box">
+            <h1>Good Morning Nandita! ❤️</h1>
+            <p>Are you ready for the surprise? ✨🎁</p>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="nextStep(2)">Yes!</button>
+            </div>
+        </div>
+
+        <div id="step-2" class="message-box hidden">
+            <h1>Wait! 🔊</h1>
+            <p>Please turn your volume up for the full experience...</p>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="startMusic()">OK, turned up!</button>
+            </div>
+        </div>
+
+        <div id="step-3" class="message-box hidden">
+            <h1 id="v-day-msg" style="display:none; animation: slideUp 1s forwards;">Happy Valentine's Day ❤️</h1>
+            <p>Will you be my Valentine forever?</p>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="nextStep(4)">Yes ❤️</button>
+                <button id="no-btn" class="btn-no" onmouseover="moveNoButton()" onclick="moveNoButton()">No 💔</button>
+            </div>
+        </div>
+
+        <div id="loop-box" class="message-box hidden">
+            <h1 id="loop-question">Pakka na soch lo?</h1>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="handleLoop()">Hanji ❤️</button>
+                <button class="btn-no" style="position:static" onclick="alert('Arre! Socho toh sahi...')">Naa ji 🥺</button>
+            </div>
+        </div>
+
+        <div id="final-window" class="message-box hidden">
+            <img src="https://media.tenor.com/M6L97tA_P48AAAAC/mochi-peach.gif" alt="Mochi Kissing">
+            <p id="final-quote" style="font-style: italic; color: #555; margin-top: 15px;"></p>
+            <h1 id="final-love" class="hidden">I Love You Nandita ❤️</h1>
+        </div>
+    </div>
+
+    <script>
+        let currentLoopStep = 0;
+        const questions = [
+            "Pakka soch liya na?",
+            "Pakka sambhal logi na mujhe?",
+            "Pakka jhel logi na mujhe?",
+            "Ek akhri baar k liye soch lo..."
+        ];
+
+        function startMusic() {
+            // This creates a hidden iframe that triggers the YouTube video with sound
+            const container = document.getElementById('video-container');
+            container.innerHTML = `<iframe src="https://www.youtube.com/embed/fKBEMjAuQ8c?autoplay=1&mute=0" allow="autoplay"></iframe>`;
+            
+            nextStep(3);
+            setTimeout(() => {
+                document.getElementById('v-day-msg').style.display = 'block';
+            }, 500);
+        }
+
+        function nextStep(step) {
+            document.querySelectorAll('.message-box').forEach(el => el.classList.add('hidden'));
+            if(step === 4) {
+                document.getElementById('loop-box').classList.remove('hidden');
+            } else {
+                document.getElementById(`step-${step}`).classList.remove('hidden');
+            }
+        }
+
+        function moveNoButton() {
+            const btn = document.getElementById('no-btn');
+            // Constraints to keep it on a mobile screen
+            const x = Math.random() * (window.innerWidth - 120);
+            const y = Math.random() * (window.innerHeight - 150);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function heartBomb() {
+            confetti({
+                particleCount: 80,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#ff4d6d', '#ff0a54', '#ff85a1'],
+                shapes: ['circle'] // 'heart' shape requires more library assets, circle looks like bombs!
+            });
+        }
+
+        function handleLoop() {
+            heartBomb();
+            if (currentLoopStep < questions.length) {
+                document.getElementById('loop-question').innerText = questions[currentLoopStep];
+                currentLoopStep++;
+            } else if (currentLoopStep === questions.length) {
+                document.getElementById('loop-question').innerText = "Pakka na?";
+                currentLoopStep++;
+            } else {
+                showFinal();
+            }
+        }
+
+        function showFinal() {
+            document.getElementById('loop-box').classList.add('hidden');
+            const final = document.getElementById('final-window');
+            final.classList.remove('hidden');
+            
+            const quote = "Loving you is the easiest thing I've ever done. You make every ordinary moment feel like exactly where I'm supposed to be.";
+            document.getElementById('final-quote').innerText = quote;
+
+            setTimeout(() => {
+                document.getElementById('final-quote').classList.add('hidden');
+                document.getElementById('final-love').classList.remove('hidden');
+                // Endless Heart Blasts
+                setInterval(heartBomb, 1500);
+            }, 5000);
+        }
+
+        // Floating Balloons logic
+        setInterval(() => {
+            const b = document.createElement('div');
+            b.className = 'balloon';
+            b.innerHTML = "❤️";
+            b.style.left = Math.random() * 100 + 'vw';
+            b.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 8000);
+        }, 600);
+    </script>
+</body>
+</html>
